@@ -1,6 +1,6 @@
-# Vaadin Gradle Skeleton Starter Spring Boot
 
-This project demoes the possibility of having Vaadin 14 project in npm+webpack
+
+This project uses Vaadin 14 project in npm+webpack
 mode using Gradle and Spring Boot. Please see the [Vaadin Gradle Plugin Page](https://github.com/vaadin/vaadin-gradle-plugin)
 for documentation.
 
