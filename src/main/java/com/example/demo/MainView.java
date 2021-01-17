@@ -1,25 +1,49 @@
 package com.example.demo;
 
+import com.example.demo.domain.Book;
+import com.example.demo.domain.BookService;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 
-/**
- * The main view contains a button and a click listener.
- */
 @Route("")
 @PWA(name = "Project Base for Vaadin", shortName = "Project Base")
 @CssImport("./styles/shared-styles.css")
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
 public class MainView extends VerticalLayout {
 
+    private BookService bookService = BookService.getInstance();
+    private Grid grid = new Grid<>(Book.class);
+    private TextField filter = new TextField();
+
     public MainView() {
+
+        grid.setColumns("title", "author", "publicationYear", "type");
+        add(filter, grid);
+        setSizeFull();
+        filter.setPlaceholder("Filter by title");
+        filter.setClearButtonVisible(true);
+        filter.setValueChangeMode(ValueChangeMode.EAGER);
+        filter.addValueChangeListener(e -> update());
+    }
+
+    private void update() {
+        grid.setItems(bookService.findByTitle(filter.getValue()));
+    }
+
+    public void refresh() {
+        grid.setItems(bookService.getBooks());
+    }
+
+   /* public MainView() {
         // Use TextField for standard text input
         TextField textField = new TextField("Your name");
 
@@ -40,5 +64,5 @@ public class MainView extends VerticalLayout {
         addClassName("centered-content");
 
         add(textField, button);
-    }
+    }*/
 }

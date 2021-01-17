@@ -1,2 +1,6 @@
-package com.example.demo.domain;public class BookType {
+package com.example.demo.domain;
+
+public enum BookType {
+
+    IT, THRILLER, CLASSIC, POETRY
 }
