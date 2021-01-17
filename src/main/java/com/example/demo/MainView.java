@@ -1,8 +1,8 @@
 package com.example.demo;
 
-import com.example.demo.domain.Book;
-import com.example.demo.domain.BookForm;
-import com.example.demo.domain.BookService;
+import com.example.demo.domain.Order;
+import com.example.demo.domain.OrderForm;
+import com.example.demo.domain.OrderService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
@@ -19,19 +19,19 @@ import com.vaadin.flow.server.PWA;
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
 public class MainView extends VerticalLayout {
 
-    private BookService bookService = BookService.getInstance();
-    private Grid grid = new Grid<>(Book.class);
+    private OrderService orderService = OrderService.getInstance();
+    private Grid grid = new Grid<>(Order.class);
     private TextField filter = new TextField();
-    private BookForm form = new BookForm(this);
-    private Button addNewBook = new Button("Add new book");
+    private OrderForm form = new OrderForm(this);
+    private Button addNewOrder = new Button("Add new order");
 
     public MainView() {
 
-        filter.setPlaceholder("Filter by title...");
+        filter.setPlaceholder("Filter by dentist...");
         filter.setClearButtonVisible(true);
         filter.setValueChangeMode(ValueChangeMode.EAGER);
         filter.addValueChangeListener(e -> update());
-        grid.setColumns("title", "author", "publicationYear", "type");
+        grid.setColumns("clinic", "dentist", "scanId", "type");
         HorizontalLayout mainContent = new HorizontalLayout(grid, form);
         mainContent.setSizeFull();
         grid.setSizeFull();
@@ -39,15 +39,15 @@ public class MainView extends VerticalLayout {
         add(filter, mainContent);
         setSizeFull();
         refresh();
-        grid.asSingleSelect().addValueChangeListener(event -> form.setBook((Book) grid.asSingleSelect().getValue()));
+        grid.asSingleSelect().addValueChangeListener(event -> form.setBook((Order) grid.asSingleSelect().getValue()));
     }
 
     private void update() {
-        grid.setItems(bookService.findByTitle(filter.getValue()));
+        grid.setItems(orderService.findByDentist(filter.getValue()));
     }
 
     public void refresh() {
-        grid.setItems(bookService.getBooks());
+        grid.setItems(orderService.getOrders());
     }
 
 }

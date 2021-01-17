@@ -9,25 +9,25 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 
-public class BookForm extends FormLayout {
+public class OrderForm extends FormLayout {
 
     private TextField title = new TextField("Title");
     private TextField author = new TextField("Author");
     private TextField publicationYear = new TextField("Publication year");
-    private ComboBox<BookType> type = new ComboBox<>("Book type");
+    private ComboBox<OrderType> type = new ComboBox<>("Order type");
 
     private Button save = new Button("Save");
     private Button delete = new Button("Delete");
 
-    private final Binder<Book> binder = new Binder<>(Book.class);
+    private final Binder<Order> binder = new Binder<>(Order.class);
 
     private MainView mainView;
 
-    private BookService service = BookService.getInstance();
+    private OrderService service = OrderService.getInstance();
 
-    public BookForm(MainView mainView) {
+    public OrderForm(MainView mainView) {
         this.mainView = mainView;
-        type.setItems(BookType.values());
+        type.setItems(OrderType.values());
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add(title, author, publicationYear, type, buttons);
@@ -38,23 +38,23 @@ public class BookForm extends FormLayout {
     }
 
     private void save() {
-        Book book = binder.getBean();
-        service.save(book);
+        Order order = binder.getBean();
+        service.save(order);
         mainView.refresh();
         setBook(null);
     }
 
     private void delete() {
-        Book book = binder.getBean();
-        service.delete(book);
+        Order order = binder.getBean();
+        service.delete(order);
         mainView.refresh();
         setBook(null);
     }
 
-    public void setBook(Book book) {
-        binder.setBean(book);
+    public void setBook(Order order) {
+        binder.setBean(order);
 
-        if (book == null) {
+        if (order == null) {
             setVisible(false);
         } else {
             setVisible(true);
