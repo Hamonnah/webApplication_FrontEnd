@@ -1,13 +1,12 @@
 package com.example.demo;
 
 import com.example.demo.domain.Book;
+import com.example.demo.domain.BookForm;
 import com.example.demo.domain.BookService;
-import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
@@ -23,16 +22,24 @@ public class MainView extends VerticalLayout {
     private BookService bookService = BookService.getInstance();
     private Grid grid = new Grid<>(Book.class);
     private TextField filter = new TextField();
+    private BookForm form = new BookForm(this);
+    private Button addNewBook = new Button("Add new book");
 
     public MainView() {
 
-        grid.setColumns("title", "author", "publicationYear", "type");
-        add(filter, grid);
-        setSizeFull();
-        filter.setPlaceholder("Filter by title");
+        filter.setPlaceholder("Filter by title...");
         filter.setClearButtonVisible(true);
         filter.setValueChangeMode(ValueChangeMode.EAGER);
         filter.addValueChangeListener(e -> update());
+        grid.setColumns("title", "author", "publicationYear", "type");
+        HorizontalLayout mainContent = new HorizontalLayout(grid, form);
+        mainContent.setSizeFull();
+        grid.setSizeFull();
+
+        add(filter, mainContent);
+        setSizeFull();
+        refresh();
+        grid.asSingleSelect().addValueChangeListener(event -> form.setBook((Book) grid.asSingleSelect().getValue()));
     }
 
     private void update() {
@@ -43,26 +50,4 @@ public class MainView extends VerticalLayout {
         grid.setItems(bookService.getBooks());
     }
 
-   /* public MainView() {
-        // Use TextField for standard text input
-        TextField textField = new TextField("Your name");
-
-        // Button click listeners can be defined as lambda expressions
-        GreetService greetService = new GreetService();
-        Button button = new Button("Say hello",
-                e -> Notification.show(greetService.greet(textField.getValue())));
-
-        // Theme variants give you predefined extra styles for components.
-        // Example: Primary button is more prominent look.
-        button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
-        // You can specify keyboard shortcuts for buttons.
-        // Example: Pressing enter in this view clicks the Button.
-        button.addClickShortcut(Key.ENTER);
-
-        // Use custom CSS classes to apply styling. This is defined in shared-styles.css.
-        addClassName("centered-content");
-
-        add(textField, button);
-    }*/
 }
