@@ -11,9 +11,9 @@ import com.vaadin.flow.data.binder.Binder;
 
 public class OrderForm extends FormLayout {
 
-    private TextField title = new TextField("Title");
-    private TextField author = new TextField("Author");
-    private TextField publicationYear = new TextField("Publication year");
+    private TextField title = new TextField("Clinic");
+    private TextField author = new TextField("Dentist");
+    private TextField publicationYear = new TextField("ScanId");
     private ComboBox<OrderType> type = new ComboBox<>("Order type");
 
     private Button save = new Button("Save");

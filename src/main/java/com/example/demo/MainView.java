@@ -31,7 +31,7 @@ public class MainView extends VerticalLayout {
         filter.setClearButtonVisible(true);
         filter.setValueChangeMode(ValueChangeMode.EAGER);
         filter.addValueChangeListener(e -> update());
-        grid.setColumns("clinic", "dentist", "scanId", "type");
+        grid.setColumns("clinic", "dentist", "scanId", "productCategory", "productName", "quantity", "type");
         HorizontalLayout mainContent = new HorizontalLayout(grid, form);
         mainContent.setSizeFull();
         grid.setSizeFull();
