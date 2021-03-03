@@ -31,7 +31,7 @@ public class MainView extends VerticalLayout {
         filter.setClearButtonVisible(true);
         filter.setValueChangeMode(ValueChangeMode.EAGER);
         filter.addValueChangeListener(e -> update());
-        grid.setColumns("clinic", "dentist", "scanId", "productCategory", "productName", "quantity", "type");
+        grid.setColumns("clinic", "dentist", "scanId", "type");
         HorizontalLayout mainContent = new HorizontalLayout(grid, form);
         mainContent.setSizeFull();
         grid.setSizeFull();
@@ -39,7 +39,7 @@ public class MainView extends VerticalLayout {
         add(filter, mainContent);
         setSizeFull();
         refresh();
-        grid.asSingleSelect().addValueChangeListener(event -> form.setBook((Order) grid.asSingleSelect().getValue()));
+        grid.asSingleSelect().addValueChangeListener(event -> form.setOrder((Order) grid.asSingleSelect().getValue()));
     }
 
     private void update() {

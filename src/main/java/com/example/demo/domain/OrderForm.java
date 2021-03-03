@@ -11,9 +11,9 @@ import com.vaadin.flow.data.binder.Binder;
 
 public class OrderForm extends FormLayout {
 
-    private TextField title = new TextField("Clinic");
-    private TextField author = new TextField("Dentist");
-    private TextField publicationYear = new TextField("ScanId");
+    private TextField clinic = new TextField("Clinic");
+    private TextField dentist = new TextField("Dentist");
+    private TextField scanId = new TextField("ScanId");
     private ComboBox<OrderType> type = new ComboBox<>("Order type");
 
     private Button save = new Button("Save");
@@ -30,7 +30,7 @@ public class OrderForm extends FormLayout {
         type.setItems(OrderType.values());
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        add(title, author, publicationYear, type, buttons);
+        add(clinic, dentist, scanId, type, buttons);
         binder.bindInstanceFields(this);
 
         save.addClickListener(event -> save());
@@ -41,24 +41,24 @@ public class OrderForm extends FormLayout {
         Order order = binder.getBean();
         service.save(order);
         mainView.refresh();
-        setBook(null);
+        setOrder(null);
     }
 
     private void delete() {
         Order order = binder.getBean();
         service.delete(order);
         mainView.refresh();
-        setBook(null);
+        setOrder(null);
     }
 
-    public void setBook(Order order) {
+    public void setOrder(Order order) {
         binder.setBean(order);
 
         if (order == null) {
             setVisible(false);
         } else {
             setVisible(true);
-            title.focus();
+            clinic.focus();
         }
     }
 
